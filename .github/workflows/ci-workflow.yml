@@ -11,7 +11,7 @@ jobs:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
     - uses: azure/arm-deploy@v1
       with:
-        scope:  resourcegroup
+        scope:  subscription
         subscriptionId: c00d16c7-6c1f-4c03-9be1-6934a4c49682
         resourceGroupName: diaggarw
         template: examples/template/template.json
