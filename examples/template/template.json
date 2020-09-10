@@ -1,91 +1,70 @@
-{
-    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-    "contentVersion": "1.0.0.0",
-    "parameters": {
-        "region": {
-            "type": "string"
-        },
-        "containerName": {
-            "type": "string"
-        },
-        "imageType": {
-            "type": "string",
-            "allowedValues": [
-                "Public",
-                "Private"
-            ]
-        },
-        "imageName": {
-            "type": "string"
-        },
-        "osType": {
-            "type": "string",
-            "allowedValues": [
-                "Linux",
-                "Windows"
-            ]
-        },
-        "numberCpuCores": {
-            "type": "string"
-        },
-        "memory": {
-            "type": "string"
-        },
-        "restartPolicy": {
-            "type": "string",
-            "allowedValues": [
-                "OnFailure",
-                "Always",
-                "Never"
-            ]
-        },
-        "ipAddressType": {
-            "type": "string"
-        },
-        "ports": {
-            "type": "array"
-        }
+Skip to content
+  queue-prep-train-a2819a06-bb12183-efa7217-4fe4680 🐈 github/blob Switch to  Rails 6.1.0.alpha.c774da7 | Ruby 2.7.1
+Search or jump to…
+
+Pull requests
+Issues
+Codespaces
+Marketplace
+Explore
+ 
+@ddivanshu 
+
+ {
+  "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "rgName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the resourceGroup to create"
+      }
     },
-    "resources": [
-        {
-            "region": "[parameters('region')]",
-            "name": "[parameters('containerName')]",
-            "type": "Microsoft.ContainerInstance/containerGroups",
-            "apiVersion": "2018-10-01",
-            "properties": {
-                "containers": [
-                    {
-                        "name": "[parameters('containerName')]",
-                        "properties": {
-                            "image": "[parameters('imageName')]",
-                            "resources": {
-                                "requests": {
-                                    "cpu": "[int(parameters('numberCpuCores'))]",
-                                    "memoryInGB": "[float(parameters('memory'))]"
-                                }
-                            },
-                            "ports": "[parameters('ports')]"
-                        }
-                    }
-                ],
-                "restartPolicy": "[parameters('restartPolicy')]",
-                "osType": "[parameters('osType')]",
-                "ipAddress": {
-                    "type": "[parameters('ipAddressType')]",
-                    "ports": "[parameters('ports')]"
-                }
-            },
-            "tags": {}
+    "rgLocation": {
+      "type": "string",
+      "metadata": {
+        "description": "Location for the resourceGroup"
+      }
+    },
+    "principalId": {
+      "type": "string",
+      "metadata": {
+        "description": "principalId if the user that will be given contributor access to the resourceGroup"
+      }
+    },
+  
+  "variables": { },
+  "resources": [
+    {
+      "type": "Microsoft.Resources/resourceGroups",
+      "apiVersion": "2019-10-01",
+      "name": "[parameters('rgName')]",
+      "location": "[parameters('rgLocation')]",
+      "tags": {
+        "Note": "subscription level deployment"
+      },
+      "properties": {}
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2019-10-01",
+      "name": "applyLock",
+      "resourceGroup": "[parameters('rgName')]",
+      "dependsOn": [
+        "[parameters('rgName')]"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "resources": [
+
+              
+          ]
         }
-    ],
-    "outputs": {
-        "region": {
-            "type": "string",
-            "value": "[parameters('region')]"
-        },
-        "containerName": {
-            "type": "string",
-            "value": "[parameters('containerName')]"
-        }
+      }
     }
+  ]
 }
+
